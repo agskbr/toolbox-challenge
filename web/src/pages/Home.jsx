@@ -33,6 +33,7 @@ export default function Page () {
               placeholder='Search by file name...'
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && onSearch()}
               className='search-input'
             />
             <InputGroup.Text onClick={onSearch}>

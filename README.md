@@ -54,6 +54,7 @@ API_KEY=<api_key>
 
 ```bash
 cd api
+nvm use # use the same node version as in the .nvmrc file
 npm install
 npm run dev
 ```
@@ -67,6 +68,7 @@ API_URL=<api_url>
 
 ```bash
 cd web
+nvm use # use the same node version as in the .nvmrc file
 npm install
 npm start
 ```

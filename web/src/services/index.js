@@ -12,11 +12,10 @@ export const fetchFiles = async (fileName) => {
 
     const response = await fetch(`${API_BASE_URL}/files/data?${params.toString()}`)
     if (!response.ok) {
-      throw new Error('Failed to fetch files')
+      throw new Error('There was an error getting the files')
     }
     return await response.json()
   } catch (error) {
-    console.error('Error fetching files:', error)
-    throw error
+    throw new Error('Something went wrong. Check your connection please')
   }
 }

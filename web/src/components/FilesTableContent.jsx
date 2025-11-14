@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 export default function FilesTableContent ({ files }) {
   if (!files || files.length === 0) {
@@ -29,9 +29,9 @@ FilesTableContent.propTypes = {
         PropTypes.shape({
           text: PropTypes.string,
           number: PropTypes.number,
-          hex: PropTypes.string,
+          hex: PropTypes.string
         })
-      ).isRequired,
+      ).isRequired
     })
-  ).isRequired,
-};
+  ).isRequired
+}

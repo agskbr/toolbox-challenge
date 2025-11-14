@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Container, Table, InputGroup, Form } from 'react-bootstrap'
+import { Container, Table, InputGroup, Form, ToastContainer, Toast } from 'react-bootstrap'
 import { fetchFiles } from '../services'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import './Home.css'
@@ -7,25 +7,35 @@ import FilesTableContent from '../components/FilesTableContent'
 
 export default function Page () {
   const [files, setFiles] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [toast, setToast] = useState({ show: false, message: '' })
+
+  const loadFiles = async (fileName) => {
+    setLoading(true)
+    try {
+      const data = await fetchFiles(fileName)
+      setFiles(data)
+    } catch (err) {
+      setToast({
+        show: true,
+        message: err?.message ?? 'Unexpected error occurred'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    setLoading(true)
-    fetchFiles().then((data) => setFiles(data))
-      .finally(() => setLoading(false))
+    loadFiles()
   }, [])
 
-  const onSearch = () => {
-    setLoading(true)
-    fetchFiles(searchTerm).then((data) => setFiles(data))
-      .finally(() => setLoading(false))
-  }
+  const onSearch = () => loadFiles(searchTerm)
 
   return (
     <div>
       <div className='custom-header-app d-flex justify-content-between align-items-center px-4'>
-        <span>React Test App</span>
+        <h1>React Test App</h1>
         <div className='search-container'>
           <InputGroup>
             <Form.Control
@@ -42,13 +52,12 @@ export default function Page () {
           </InputGroup>
         </div>
       </div>
+
       <Container fluid className='py-4 px-3 px-md-5'>
         {loading
-          ? <LoadingSpinner />
+          ? (<LoadingSpinner />)
           : (
-            <div
-              className='table-responsive shadow-sm custom-files-table'
-            >
+            <div className='table-responsive shadow-sm custom-files-table'>
               <Table striped bordered className='mb-0'>
                 <thead className='table-light sticky-top z-index-10'>
                   <tr>
@@ -65,6 +74,23 @@ export default function Page () {
             </div>
             )}
       </Container>
+
+      <ToastContainer position='bottom-end' className='p-3'>
+        <Toast
+          onClose={() => setToast({ show: false, message: '' })}
+          show={toast.show}
+          delay={6000}
+          autohide
+        >
+          <Toast.Header>
+            <strong className='me-auto text-danger'>Oops!</strong>
+          </Toast.Header>
+          <Toast.Body className='text-danger'>
+            {toast.message}
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
     </div>
   )
 }

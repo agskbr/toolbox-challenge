@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function FilesTableContent ({ files }) {
   if (!files || files.length === 0) {
     return (
@@ -18,3 +20,18 @@ export default function FilesTableContent ({ files }) {
     ))
   )
 }
+
+FilesTableContent.propTypes = {
+  files: PropTypes.arrayOf(
+    PropTypes.shape({
+      file: PropTypes.string.isRequired,
+      lines: PropTypes.arrayOf(
+        PropTypes.shape({
+          text: PropTypes.string,
+          number: PropTypes.number,
+          hex: PropTypes.string,
+        })
+      ).isRequired,
+    })
+  ).isRequired,
+};

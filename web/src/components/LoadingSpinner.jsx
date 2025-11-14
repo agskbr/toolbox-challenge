@@ -1,4 +1,5 @@
 import { Spinner } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 export const LoadingSpinner = ({ size, variant = 'primary', className = '' }) => (
   <div
@@ -16,8 +17,8 @@ export const LoadingSpinner = ({ size, variant = 'primary', className = '' }) =>
   </div>
 )
 
-LoadingSpinner.defaultProps = {
-  size: 'md',
-  variant: 'primary',
-  className: ''
+LoadingSpinner.propTypes = {
+  size: PropTypes.string,
+  variant: PropTypes.string,
+  className: PropTypes.string
 }
